@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "MyProject"
+version = "0.1.0-dev"
+description = "My project description"
+authors = ["KRunchPL <krunchfrompoland@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/KRunchPL/my-project"
+repository = "https://github.com/KRunchPL/my-project"
+documentation = "https://github.com/KRunchPL/my-project"
+license = "Apache-2.0"
+packages = [
+    { include = "my_project" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+darglint = "^1.8.1"
+flake8 = "^7.1.1"
+ruff = "^0.8.0"
+mypy = "~1.13.0"
+pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
+pytest-mock = "^3.14.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

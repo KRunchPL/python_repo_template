@@ -1,0 +1,52 @@
+[project]
+name = "my-project"
+dynamic = ["version"]
+description = "My project description"
+authors = [{ name = "KRunchPL", email = "krunchfrompoland@gmail.com" }]
+license = "Apache-2.0"
+readme = "README.md"
+requires-python = ">=3.15,<4.0"
+dependencies = [
+    "loguru>=0.7.3,<0.8.0",
+    "pydantic>=2.13.5,<3.0.0",
+    "pydantic-settings>=2.15.0,<3.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "deptry",
+    "flake8",
+    "mypy",
+    "pydoclint",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "ruff",
+]
+
+[project.urls]
+homepage = "https://github.com/KRunchPL/my-project"
+repository = "https://github.com/KRunchPL/my-project"
+documentation = "https://github.com/KRunchPL/my-project"
+
+[project.scripts]
+my-project = "my_project.__main__:main"
+
+[tool.deptry]
+known_first_party = ["my_project"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/my_project"]
+
+[tool.hatch.version]
+scheme = "semver"
+path = "version.txt"
+pattern = "(?P<version>.*)"
+
+[build-system]
+requires = ["hatchling", "hatch-semver"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+system-certs = true
+add-bounds = "major"

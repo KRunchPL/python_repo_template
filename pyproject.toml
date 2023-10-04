@@ -198,7 +198,7 @@ extend-ignore = []
 extend-include = []
 # A list of mappings from file pattern to rule codes or prefixes to
 # exclude, in addition to any rules excluded by per-file-ignores.
-extend-per-file-ignores = {}
+extend-per-file-ignores = {"tests/*" = ["ANN", "S101", "D100", "D103"]}
 # A list of rule codes or prefixes to enable, in addition to those
 # specified by select.
 extend-select = []
@@ -231,7 +231,10 @@ force-exclude = false
 # When breaking ties between enabled and disabled rules (via select and
 # ignore, respectively), more specific prefixes override less
 # specific prefixes.
-ignore = []
+# D104 - Missing docstring in public module
+# D200 - One-line docstring should fit on one line
+# D212 - Multi-line docstring summary should start at the first line
+ignore = ["D200", "D212", "D104"]
 # Avoid automatically removing unused imports in __init__.py files. Such
 # imports will still be flagged, but with a dedicated message suggesting
 # that the import is either added to the module's __all__ symbol, or
@@ -246,7 +249,7 @@ ignore-init-module-imports = false
 include = ["*.py", "*.pyi", "**/pyproject.toml"]
 # The line length to use when enforcing long-lines violations (like
 # E501). Must be greater than 0 and less than or equal to 320.
-line-length = 88
+line-length = 110
 # A list of objects that should be treated equivalently to a
 # logging.Logger object.
 # This is useful for ensuring proper diagnostics (e.g., to identify
@@ -291,7 +294,7 @@ respect-gitignore = true
 # When breaking ties between enabled and disabled rules (via select and
 # ignore, respectively), more specific prefixes override less
 # specific prefixes.
-select = ["E", "F"]
+select = ["ALL"]
 # Whether to show an enumeration of all fixed lint violations
 # (overridden by the --show-fixes command-line flag).
 show-fixes = false
@@ -324,7 +327,7 @@ tab-size = 4
 # target version will be inferred from its project.requires-python
 # field (e.g., requires-python = ">=3.8"). If Ruff is configured via
 # ruff.toml or .ruff.toml, no such inference will be performed.
-target-version = "py38"
+target-version = "py311"
 # A list of task tags to recognize (e.g., "TODO", "FIXME", "XXX").
 # Comments starting with these tags will be ignored by commented-out code
 # detection (ERA), and skipped by line-length rules (E501) if
@@ -434,7 +437,7 @@ banned-aliases = {}
 # from ... import ... syntax.
 # For example, given banned-from = ["pandas"], from pandas import DataFrame
 # would be disallowed, while import pandas would be allowed.
-banned-from = []
+banned-from = ["yaml", "json"]
 # A mapping from module to conventional import alias. These aliases will
 # be added to the aliases mapping.
 extend-aliases = {}
@@ -474,7 +477,7 @@ parametrize-names-type = "tuple"
 parametrize-values-row-type = "tuple"
 # Expected type for the list of values rows in @pytest.mark.parametrize.
 # The following values are supported:
-parametrize-values-type = "list"
+parametrize-values-type = "tuple"
 # List of additional exception names that require a match= parameter in a
 # pytest.raises() call. This extends the default list of exceptions
 # that require a match= parameter.
@@ -501,10 +504,10 @@ avoid-escape = true
 docstring-quotes = "double"
 # Quote style to prefer for inline strings (either "single" or
 # "double").
-inline-quotes = "double"
+inline-quotes = "single"
 # Quote style to prefer for multiline strings (either "single" or
 # "double").
-multiline-quotes = "double"
+multiline-quotes = "single"
 
 [tool.ruff.flake8-self]
 # Additional names to ignore when considering flake8-self violations,
@@ -570,13 +573,13 @@ preview = false
 # Ruff will change a to use single quotes when using quote-style = "single". However,
 # a will be unchanged, as converting to single quotes would require the inner ' to be
 # escaped, which leads to less readable code: 'It\'s monday morning'.
-quote-style = "double"
+quote-style = "single"
 # Ruff uses existing trailing commas as an indication that short lines should be left separate.
 # If this option is set to true, the magic trailing comma is ignored.
 # For example, Ruff leaves the arguments separate even though
 # collapsing the arguments to a single line doesn't exceed the line width if skip-magic-trailing-comma = false:
 # Setting skip-magic-trailing-comma = true changes the formatting to:
-skip-magic-trailing-comma = false
+skip-magic-trailing-comma = true
 
 [tool.ruff.isort]
 # Sort imports taking into account case sensitivity.
@@ -586,7 +589,7 @@ case-sensitive = false
 classes = []
 # Combines as imports on the same line. See isort's combine-as-imports
 # option.
-combine-as-imports = false
+combine-as-imports = true
 # An override list of tokens to always recognize as a CONSTANT
 # for order-by-type regardless of casing.
 constants = []
@@ -639,7 +642,7 @@ known-local-folder = []
 known-third-party = []
 # The number of blank lines to place after imports.
 # Use -1 for automatic determination.
-lines-after-imports = -1
+lines-after-imports = 2
 # The number of lines to place between "direct" and import from imports.
 lines-between-types = 0
 # A list of sections that should not be delineated from the previous
@@ -647,7 +650,7 @@ lines-between-types = 0
 no-lines-before = []
 # Order imports by type, which is determined by case, in addition to
 # alphabetically.
-order-by-type = true
+order-by-type = false
 # Whether to place "closer" imports (fewer . characters, most local)
 # before "further" imports (more . characters, least local), or vice
 # versa.
@@ -668,7 +671,7 @@ single-line-exclusions = []
 # If a comma is placed after the last member in a multi-line import, then
 # the imports will never be folded into one line.
 # See isort's split-on-trailing-comma option.
-split-on-trailing-comma = true
+split-on-trailing-comma = false
 # An override list of tokens to always recognize as a var
 # for order-by-type regardless of casing.
 variables = []

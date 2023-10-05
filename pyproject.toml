@@ -189,7 +189,7 @@ blank_lines_around_top_level_definition = 2
 
 # Number of blank lines between top-level imports and variable
 # definitions.
-blank_lines_between_top_level_imports_and_variables = 1
+blank_lines_between_top_level_imports_and_variables = 2
 
 # Insert a blank line before a class-level docstring.
 blank_line_before_class_docstring = false
@@ -222,10 +222,10 @@ blank_line_before_nested_class_or_def = true
 #        'key1': 'value1',
 #        'key2': 'value2',
 #    })
-coalesce_brackets = false
+coalesce_brackets = true
 
 # The column limit.
-column_limit = 79
+column_limit = 110
 
 # The style for continuation alignment. Possible values are:
 #
@@ -257,11 +257,11 @@ continuation_indent_width = 4
 #       start_ts=now()-timedelta(days=3),
 #       end_ts=now(),
 #   )        # <--- this bracket is dedented and on a separate line
-dedent_closing_brackets = false
+dedent_closing_brackets = true
 
 # Disable the heuristic which places each list element on a separate line
 # if the list is comma-terminated.
-disable_ending_comma_heuristic = false
+disable_ending_comma_heuristic = true
 
 # Place each dictionary entry onto its own line.
 each_dict_entry_on_separate_line = true
@@ -272,7 +272,7 @@ each_dict_entry_on_separate_line = true
 #   config = {
 #       'key1': 'value1'
 #   }
-force_multiline_dict = false
+force_multiline_dict = true
 
 # The regex for an i18n comment. The presence of this comment stops
 # reformatting of that line, because the comments are required to be
@@ -426,7 +426,7 @@ space_between_ending_comma_and_closing_bracket = true
 space_inside_brackets = false
 
 # Split before arguments.
-split_all_comma_separated_values = false
+split_all_comma_separated_values = true
 
 # Split before arguments, but do not split all subexpressions recursively
 # (unless needed).
@@ -434,11 +434,11 @@ split_all_top_level_comma_separated_values = false
 
 # Split before arguments if the argument list is terminated by a
 # comma.
-split_arguments_when_comma_terminated = false
+split_arguments_when_comma_terminated = true
 
 # Set to true to prefer splitting before '+', '-', '*', '/', '//', or '@'
 # rather than after.
-split_before_arithmetic_operator = false
+split_before_arithmetic_operator = true
 
 # Set to true to prefer splitting before '&', '|' or '^' rather than
 # after.
@@ -469,11 +469,11 @@ split_before_dot = false
 
 # Split after the opening paren which surrounds an expression if it doesn't
 # fit on a single line.
-split_before_expression_after_opening_paren = false
+split_before_expression_after_opening_paren = true
 
 # If an argument / parameter list is going to be split, then split before
 # the first argument.
-split_before_first_argument = false
+split_before_first_argument = true
 
 # Set to true to prefer splitting before 'and' or 'or' rather than
 # after.
@@ -496,7 +496,7 @@ split_before_named_assigns = true
 #       a_long_var + 100
 #       for a_long_var in xrange(1000)
 #       if a_long_var % 10]
-split_complex_comprehension = false
+split_complex_comprehension = true
 
 # The penalty for splitting right after the opening bracket.
 split_penalty_after_opening_bracket = 300

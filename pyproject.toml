@@ -176,7 +176,7 @@ explicit-preview-rules = false
 # To resolve the current pyproject.toml file, Ruff will first resolve
 # this base configuration file, then merge in any properties defined
 # in the current configuration file.
-#extend = None
+#extend =
 # A list of file patterns to omit from linting, in addition to those
 # specified by exclude.
 # Exclusions are based on globs, and can be either:
@@ -196,9 +196,6 @@ extend-ignore = []
 # *.pyw, to include any file with the .pyw extension.
 # For more information on the glob syntax, refer to the globset documentation.
 extend-include = []
-# A list of mappings from file pattern to rule codes or prefixes to
-# exclude, in addition to any rules excluded by per-file-ignores.
-extend-per-file-ignores = {"tests/*" = ["ANN", "S101", "D100", "D103"]}
 # A list of rule codes or prefixes to enable, in addition to those
 # specified by select.
 extend-select = []
@@ -231,10 +228,20 @@ force-exclude = false
 # When breaking ties between enabled and disabled rules (via select and
 # ignore, respectively), more specific prefixes override less
 # specific prefixes.
-# D104 - Missing docstring in public module
-# D200 - One-line docstring should fit on one line
-# D212 - Multi-line docstring summary should start at the first line
-ignore = ["D200", "D212", "D104"]
+ignore = [
+    "D100",    # Missing docstring in public module
+    "D104",    # Missing docstring in public package
+    "D105",    # Missing docstring in magic method
+    "D107",    # Missing docstring in `__init__`
+    "D200",    # One-line docstring should fit on one line
+    "D203",    # 1 blank line required before class docstring
+    "D204",    # 1 blank line required after class docstring
+    "D212",    # Multi-line docstring summary should start at the first line
+    "ANN101",  # Missing type annotation for `self` in method
+    "ANN102",  # Missing type annotation for `cls` in classmethod
+    "S101",    # Use of `assert` detected
+    "B005",    # Using .strip() with multi-character strings is misleading
+]
 # Avoid automatically removing unused imports in __init__.py files. Such
 # imports will still be flagged, but with a dedicated message suggesting
 # that the import is either added to the module's __all__ symbol, or
@@ -275,15 +282,15 @@ namespace-packages = []
 # "pylint" (Pylint text format) or "azure" (Azure Pipeline logging commands).
 output-format = "text"
 # A list of mappings from file pattern to rule codes or prefixes to
-# exclude, when considering any matching files.
-per-file-ignores = {}
+# exclude, in addition to any rules excluded by per-file-ignores.
+extend-per-file-ignores = {}
 # Whether to enable preview mode. When preview mode is enabled, Ruff will
 # use unstable rules and fixes.
 preview = false
 # Require a specific version of Ruff to be running (useful for unifying
 # results across many environments, e.g., with a pyproject.toml
 # file).
-#required-version = None
+#required-version =
 # Whether to automatically exclude files that are ignored by .ignore,
 # .gitignore, .git/info/exclude, and global gitignore files.
 # Enabled by default.
@@ -344,6 +351,14 @@ typing-modules = []
 # A list of rule codes or prefixes to consider non-fixable.
 unfixable = []
 
+# A list of mappings from file pattern to rule codes or prefixes to
+# exclude, when considering any matching files.
+[tool.ruff.per-file-ignores]
+"tests/*" = [
+    "ANN",  # flake8-annotations
+    "D103",  # Missing docstring in public function
+]
+
 [tool.ruff.flake8-annotations]
 # Whether to suppress ANN401 for dynamically typed *args and
 # **kwargs arguments.
@@ -357,9 +372,11 @@ ignore-fully-untyped = false
 mypy-init-return = false
 # Whether to suppress ANN000-level violations for arguments matching the
 # "dummy" variable regex (like _).
-suppress-dummy-args = false
+suppress-dummy-args = true
 # Whether to suppress ANN200-level violations for functions that meet
 # either of the following criteria:
+# * Contain no return statement.
+# * Explicit return statement(s) all return None (explicitly or implicitly).
 suppress-none-returning = false
 
 [tool.ruff.flake8-bandit]
@@ -429,8 +446,6 @@ function-names = ["_", "gettext", "ngettext"]
 allow-multiline = true
 
 [tool.ruff.flake8-import-conventions]
-# The conventional aliases for imports. These aliases can be extended by
-# the extend_aliases option.
 # A mapping from module to its banned import aliases.
 banned-aliases = {}
 # A list of modules that should not be imported from using the
@@ -441,6 +456,9 @@ banned-from = ["yaml", "json"]
 # A mapping from module to conventional import alias. These aliases will
 # be added to the aliases mapping.
 extend-aliases = {}
+
+# The conventional aliases for imports. These aliases can be extended by
+# the extend_aliases option.
 [tool.ruff.flake8-import-conventions.aliases]
 "altair" = "alt"
 "matplotlib" = "mpl"
@@ -468,15 +486,22 @@ fixture-parentheses = true
 # default), @pytest.mark.foo() is valid and @pytest.mark.foo is
 # invalid. If set to false, @pytest.fixture is valid and
 # @pytest.mark.foo() is invalid.
-mark-parentheses = true
+mark-parentheses = false
 # Expected type for multiple argument names in @pytest.mark.parametrize.
 # The following values are supported:
+# * csv — a comma-separated list, e.g. @pytest.mark.parametrize('name1,name2', ...)
+# * tuple (default) — e.g. @pytest.mark.parametrize(('name1', 'name2'), ...)
+# * list — e.g. @pytest.mark.parametrize(['name1', 'name2'], ...)
 parametrize-names-type = "tuple"
 # Expected type for each row of values in @pytest.mark.parametrize in
 # case of multiple parameters. The following values are supported:
+# * tuple (default) — e.g. @pytest.mark.parametrize(('name1', 'name2'), [(1, 2), (3, 4)])
+# * list — e.g. @pytest.mark.parametrize(('name1', 'name2'), [[1, 2], [3, 4]])
 parametrize-values-row-type = "tuple"
 # Expected type for the list of values rows in @pytest.mark.parametrize.
 # The following values are supported:
+# * tuple — e.g. @pytest.mark.parametrize('name', (1, 2, 3))
+# * list (default) — e.g. @pytest.mark.parametrize('name', [1, 2, 3])
 parametrize-values-type = "tuple"
 # List of additional exception names that require a match= parameter in a
 # pytest.raises() call. This extends the default list of exceptions
@@ -493,7 +518,15 @@ raises-extend-require-match-for = []
 # pytest.raises() call.
 # Supports glob patterns. For more information on the glob syntax, refer
 # to the globset documentation.
-raises-require-match-for = ["BaseException", "Exception", "ValueError", "OSError", "IOError", "EnvironmentError", "socket.error"]
+raises-require-match-for = [
+    "BaseException",
+    "Exception",
+    "ValueError",
+    "OSError",
+    "IOError",
+    "EnvironmentError",
+    "socket.error",
+]
 
 [tool.ruff.flake8-quotes]
 # Whether to avoid using single quotes if a string contains single quotes,
@@ -514,7 +547,15 @@ multiline-quotes = "single"
 # in addition to those included in ignore-names.
 extend-ignore-names = []
 # A list of names to ignore when considering flake8-self violations.
-ignore-names = ["_make", "_asdict", "_replace", "_fields", "_field_defaults", "_name_", "_value_"]
+ignore-names = [
+    "_make",
+    "_asdict",
+    "_replace",
+    "_fields",
+    "_field_defaults",
+    "_name_",
+    "_value_",
+]
 
 [tool.ruff.flake8-tidy-imports]
 # Whether to ban all relative imports ("all"), or only those imports
@@ -578,7 +619,15 @@ quote-style = "single"
 # If this option is set to true, the magic trailing comma is ignored.
 # For example, Ruff leaves the arguments separate even though
 # collapsing the arguments to a single line doesn't exceed the line width if skip-magic-trailing-comma = false:
+#  # The arguments remain on separate lines because of the trailing comma after `b`
+# def test(
+#     a,
+#     b,
+# ): pass
 # Setting skip-magic-trailing-comma = true changes the formatting to:
+# # The arguments remain on separate lines because of the trailing comma after `b`
+# def test(a, b):
+#     pass
 skip-magic-trailing-comma = true
 
 [tool.ruff.isort]
@@ -688,7 +737,9 @@ max-complexity = 10
 # in this list takes a cls argument as its first argument.
 # Expects to receive a list of fully-qualified names (e.g., pydantic.validator,
 # rather than validator).
-classmethod-decorators = []
+classmethod-decorators = [
+    "pydantic.validator",
+]
 # Additional names (or patterns) to ignore when considering pep8-naming violations,
 # in addition to those included in ignore-names
 # Supports glob patterns. For example, to ignore all names starting with
@@ -699,7 +750,20 @@ extend-ignore-names = []
 # Supports glob patterns. For example, to ignore all names starting with
 # or ending with _test, you could use ignore-names = ["test_*", "*_test"].
 # For more information on the glob syntax, refer to the globset documentation.
-ignore-names = ["setUp", "tearDown", "setUpClass", "tearDownClass", "setUpModule", "tearDownModule", "asyncSetUp", "asyncTearDown", "setUpTestData", "failureException", "longMessage", "maxDiff"]
+ignore-names = [
+    "setUp",
+    "tearDown",
+    "setUpClass",
+    "tearDownClass",
+    "setUpModule",
+    "tearDownModule",
+    "asyncSetUp",
+    "asyncTearDown",
+    "setUpTestData",
+    "failureException",
+    "longMessage",
+    "maxDiff",
+]
 # A list of decorators that, when applied to a method, indicate that the
 # method should be treated as a static method (in addition to the builtin
 # @staticmethod).
@@ -718,7 +782,7 @@ ignore-overlong-task-comments = false
 # documentation (W505), including standalone comments. By default,
 # this is set to null which disables reporting violations.
 # See the doc-line-too-long rule for more information.
-#max-doc-length = None
+max-doc-length = 110
 
 [tool.ruff.pydocstyle]
 # Whether to use Google-style or NumPy-style conventions or the PEP257

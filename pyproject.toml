@@ -739,6 +739,9 @@ max-complexity = 10
 # rather than validator).
 classmethod-decorators = [
     "pydantic.validator",
+    "pydantic.root_validator",
+    "sqlalchemy.orm.declared_attr",
+    "sqlalchemy.ext.declarative.declared_attr",
 ]
 # Additional names (or patterns) to ignore when considering pep8-naming violations,
 # in addition to those included in ignore-names
@@ -763,6 +766,7 @@ ignore-names = [
     "failureException",
     "longMessage",
     "maxDiff",
+    "getLogger",
 ]
 # A list of decorators that, when applied to a method, indicate that the
 # method should be treated as a static method (in addition to the builtin
